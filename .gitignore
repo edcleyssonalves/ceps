@@ -2,3 +2,5 @@ venv
 .env
 *db.sqlite*
 *pycache*
+.flake8
+ceps_2026*
