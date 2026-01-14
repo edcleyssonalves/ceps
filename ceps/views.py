@@ -1,8 +1,11 @@
 import re
 from django.views.generic import ListView
 from ceps.models import Cep
+from django_ratelimit.decorators import ratelimit
+from django.utils.decorators import method_decorator
 
 
+@method_decorator(ratelimit(key="ip", rate="30/m", block=True), name="dispatch")
 class CepListView(ListView):
     model = Cep
     template_name = "cep.html"
