@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from core.config import DJANGO_SECRET_KEY
 

@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6">
+
+      <div class="card shadow-sm rounded-4 p-4">
+        <form method="get" action="{% url 'ceps' %}">
+          <h3 class="text-center fw-bold mb-1">Buscador de CEP</h3>
+          <p class="text-center text-muted mb-4">
+            Digite o nome da sua rua para encontrar seu CEP
+          </p>
+
+          <div class="mb-3">
+            <label class="form-label">Estado (UF)</label>
+            <select class="form-select" disabled>
+              <option>Paraíba</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Cidade</label>
+            <select class="form-select" disabled>
+              <option>Guarabira</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Rua</label>
+            <input
+              type="text"
+              name="search"
+              class="form-control"
+              value="{{ request.GET.search }}"
+              placeholder="Nome da rua sem número"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-warning w-100 fw-bold py-2">
+            <i class="bi bi-search me-2"></i>
+            Buscar CEP
+          </button>
+        </form>
+      </div>
+
+      {% if request.GET.search and not ceps %}
+      <div id="resultado" class="alert alert-warning mt-4 text-center fade-in">
+        Nenhum endereço encontrado para sua busca.
+      </div>
+      {% endif %}
+
+      {% if ceps %}
+      <div id="resultado" class="card shadow-sm rounded-4 p-4 mt-4 fade-in">
+        <h5 class="fw-bold mb-3">
+          <i class="bi bi-geo-alt text-warning me-1"></i>
+          Endereço Encontrado
+        </h5>
+
+        {% for cep in ceps %}
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong>Rua:</strong> {{ cep.logradouro }}
+          </li>
+          <li class="list-group-item">
+            <strong>Bairro:</strong> {{ cep.bairro }}
+          </li>
+          <li class="list-group-item">
+            <strong>Cidade:</strong> {{ cep.cidade }}
+          </li>
+          <li class="list-group-item">
+            <strong>Antigo CEP:</strong> 58200-000
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Novo CEP:</strong>
+              <span>{{ cep.cep }}</span>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-secondary"
+              onclick="copyCep('{{ cep.cep }}')"
+              title="Copiar CEP">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </li>
+        </ul>
+        {% endfor %}
+      </div>
+
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="copyToast" class="toast align-items-center text-bg-success border-0" role="alert">
+          <div class="d-flex">
+            <div class="toast-body">
+              <i class="bi bi-check-circle me-2"></i>
+              CEP copiado com sucesso
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+{% if request.GET.search %}
+<script>
+  window.addEventListener("load", () => {
+    const el = document.getElementById("resultado");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+
+  function copyCep(value) {
+    navigator.clipboard.writeText(value).then(() => {
+      const toastEl = document.getElementById("copyToast");
+      const toast = new bootstrap.Toast(toastEl);
+      toast.show();
+    });
+  }
+</script>
+{% endif %}
+
+{% endblock %}
