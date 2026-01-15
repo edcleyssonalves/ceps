@@ -5,3 +5,4 @@ venv
 .flake8
 ceps_2026*
 htmlcov
+.coverage
