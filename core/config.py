@@ -10,5 +10,4 @@ DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST')
 DB_PORT = os.getenv('DB_PORT')
-DJANGO_ENV = os.getenv('DJANGO_ENV', 'dev')
-DJANGO_DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DB_LIVE = os.getenv('DB_LIVE')

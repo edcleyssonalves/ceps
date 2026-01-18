@@ -1,6 +1,6 @@
 from pathlib import Path
 from core.config import (DJANGO_SECRET_KEY,
-DB_NAME, DB_PASSWORD, DB_USER, DB_HOST, DB_PORT, DJANGO_ENV, DJANGO_DEBUG)
+DB_NAME, DB_PASSWORD, DB_USER, DB_HOST, DB_PORT, DB_LIVE)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,9 +13,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = DJANGO_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = DJANGO_DEBUG
+DEBUG = DB_LIVE
 
-ENVIROMENT = DJANGO_ENV
+
 
 ALLOWED_HOSTS = ['*'] 
 
@@ -64,35 +64,29 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': f'django.db.backends.{DB_ENGINE}',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST':DB_HOST,
-        'PORT': DB_PORT,
-    }
-}
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': f'django.db.backends.postgresql_psycopg2',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST':DB_HOST,
-        'PORT': DB_PORT,
-    },
-    'dev': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'OPTIONS': {
-            'timeout': 20,
+
+if DB_LIVE in ['False', False]:
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+            'OPTIONS': {
+                'timeout': 20,
+            }
         }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': f'django.db.backends.postgresql_psycopg2',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST':DB_HOST,
+            'PORT': DB_PORT,
+        },
+    }
 
 
 # Password validation
