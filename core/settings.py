@@ -1,6 +1,6 @@
 from pathlib import Path
 from core.config import (DJANGO_SECRET_KEY,
-DB_NAME, DB_PASSWORD, DB_USER, DB_HOST, DB_PORT, DB_LIVE)
+DB_NAME, DB_PASSWORD, DB_USER, DB_HOST, DB_PORT, DB_LIVE, ALLOWED_HOSTS, TRUSTED_ORIGINS)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,10 +15,7 @@ SECRET_KEY = DJANGO_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-
-
-ALLOWED_HOSTS = ['*'] 
-
+ALLOWED_HOSTS = [ALLOWED_HOSTS]
 
 # Application definition
 
@@ -44,9 +41,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
+
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.railway.app",
+    TRUSTED_ORIGINS,
 ]
+
 
 ROOT_URLCONF = 'core.urls'
 
