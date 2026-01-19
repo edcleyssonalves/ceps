@@ -16,4 +16,11 @@ RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 60 --preload
+CMD gunicorn core.wsgi:application \
+    --bind 0.0.0.0:8000 \
+    --workers 2 \
+    --timeout 30 \
+    --preload \
+    --max-requests 1000 \
+    --max-requests-jitter 100
+
