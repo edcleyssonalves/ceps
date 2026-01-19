@@ -44,6 +44,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.railway.app",
+]
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
