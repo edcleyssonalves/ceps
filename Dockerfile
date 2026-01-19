@@ -13,4 +13,4 @@ RUN pip install -r requirements.txt
 EXPOSE 8000
 
 CMD python manage.py migrate && \
-    uwsgi --http :8000 --module corewsgi --chmod-socket=666
+    uwsgi --http :8000 --module core.wsgi --chmod-socket=666
