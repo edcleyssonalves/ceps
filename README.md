@@ -69,7 +69,7 @@ Não é necessário login.
 ## 📌 Observações
 
 * Este projeto **não expõe API pública** no momento.
-* O foco é exclusivamente para fins edaucacionais
+* O foco é exclusivamente para fins educacionais.
 
 
 ## 🚀 Tecnologias
